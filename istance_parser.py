@@ -47,9 +47,3 @@ def from_ferrara():
             G.add_edge(j,i,time=time)
 
     return TMax,G
-
-#TMax,G = from_op_format("tsiligirides_problem_1_budget_05.txt")
-TMax,G = from_ferrara()
-
-print(G)
-print(TMax)

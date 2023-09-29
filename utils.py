@@ -35,3 +35,4 @@ def path_accettabile(G, path, TMax):
     return False
 
   return True
+
