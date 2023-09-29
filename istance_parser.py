@@ -19,8 +19,6 @@ def from_op_format(filename):
         for j in range(i+1, len(G.nodes)):
             G.add_edge(i,j,time=euclidean_distance(G.nodes[i]["x"],G.nodes[i]["y"],G.nodes[j]["x"],G.nodes[j]["y"]))
 
-
-    
     return TMax,G
 
 TMax,G =  from_op_format("tsiligirides_problem_1_budget_05.txt")
