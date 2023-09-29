@@ -1,5 +1,5 @@
 import networkx as nx
-import * from utils
+import utils
 
 def best_small_cycle(G,albergo,TMax):
   best_cycle = []

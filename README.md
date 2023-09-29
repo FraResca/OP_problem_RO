@@ -1,3 +1,8 @@
 # OP_problem_RO
 
-# Hello There!
+# Cose da fare
+
+- Trasferire da Colab a qui
+- Fare lista upgrade consigliati dalla prof
+- Impostare il ppt
+- Controllare per visualizzazione geografica
