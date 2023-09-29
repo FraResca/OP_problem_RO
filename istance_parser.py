@@ -21,7 +21,35 @@ def from_op_format(filename):
 
     return TMax,G
 
-TMax,G =  from_op_format("tsiligirides_problem_1_budget_05.txt")
+def from_ferrara():
+    TMax = 90
+    G = nx.Graph()
+    with open('interesse.csv') as csv_file:
+        lines = csv_file.readlines()
+        for i in range(1,len(lines)):
+            data = lines[i].split(',')
+            raw = data[0]
+            raw = raw.replace('"POINT (','')
+            raw = raw.replace(')"','')
+            raw = raw.split(' ')
+            G.add_node((i-1), score=int(float(data[2].replace('\n',''))), x=raw[0], y=raw[1])
+            print((i-1), G.nodes[i-1])
+    
+    with open('distanze.txt') as f:
+        lines = f.readlines()
+        for line in lines:
+            line=line.replace('\n','')
+            line=line.split(' ')
+            i=int(line[0])
+            j=int(line[1])
+            time=int(line[2])
+            G.add_edge(i,j,time=time)
+            G.add_edge(j,i,time=time)
+
+    return TMax,G
+
+#TMax,G = from_op_format("tsiligirides_problem_1_budget_05.txt")
+TMax,G = from_ferrara()
 
 print(G)
 print(TMax)
