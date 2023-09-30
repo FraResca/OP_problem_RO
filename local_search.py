@@ -39,9 +39,11 @@ def ls_opt2_add_remove(G,albergo,TMax):
 
   while True:
     paths = opt2(G,path,1,TMax)
+    
     path = best_improvement(G,path,paths,TMax)
     paths = remove_moves(G,path,TMax)
     path = best_improvement(G,path,paths,TMax)
+
     _,score = misura(G,path)
     if path == best_path:
       return path

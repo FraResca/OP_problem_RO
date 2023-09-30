@@ -77,3 +77,6 @@ def ricerca_greedy_max_insert(G,albergo,TMax):
       return better_path
     else:
       path = better_path
+
+
+
