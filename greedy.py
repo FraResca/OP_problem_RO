@@ -80,3 +80,13 @@ def ricerca_greedy_max_insert(G,albergo,TMax):
 
 
 
+        
+def ricerca_greedy_ind_insert(G,albergo,TMax):
+  path = [albergo,albergo]
+  while True:
+    better_path = best_add_ind(G,path,TMax)
+    if better_path == path:
+      return better_path
+    else:
+      path = better_path
+

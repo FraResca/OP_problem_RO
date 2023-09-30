@@ -1,5 +1,7 @@
 import networkx as nx
 
+
+
 def misura(G, path):
   time_path = 0
   score = 0
@@ -13,6 +15,12 @@ def misura(G, path):
         time_path += G[path[i+1]][path[i]]['time']
         score += G.nodes[path[i]]['score']
   return time_path,score
+
+def misura_ind(G,path):
+  ind = 0
+  for i in range(1,len(path)-1):
+    ind += G.nodes[i]['score']/G[path[0]][i]['time']
+  return ind
 
 def path_accettabile(G, path, TMax):
   tempo_path = 0

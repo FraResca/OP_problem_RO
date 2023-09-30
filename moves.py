@@ -35,6 +35,21 @@ def best_add(G,path,TMax):
   else: return best_path
 
 
+
+def best_add_ind(G,path,TMax):
+  paths = add_moves(G,path,TMax)
+  best_path = []
+  best_score = 0
+  for path in paths:
+    score = misura_ind(G,path)
+    if score > best_score:
+      best_path = path
+      best_score = score
+  if best_path == []:
+    return path
+  else: return best_path
+
+
 def swap_moves(G,path,TMax):
   movlist = []
   for i in range(len(path)-1):
