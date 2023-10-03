@@ -1,6 +1,7 @@
 import networkx as nx
 from utils import *
 from moves import *
+import random
 
 
 def ricerca_greedy_max_grad(G, albergo, TMax):
@@ -78,8 +79,6 @@ def ricerca_greedy_max_insert(G,albergo,TMax):
     else:
       path = better_path
 
-
-
         
 def ricerca_greedy_ind_insert(G,albergo,TMax):
   path = [albergo,albergo]
@@ -90,3 +89,35 @@ def ricerca_greedy_ind_insert(G,albergo,TMax):
     else:
       path = better_path
 
+
+def add_random(G,path,albergo,TMax,k):
+  choice_nodes = []
+  for i in (range(len(G.nodes))):
+    if i not in path:
+      time,_ = misura(G,path)
+      if (time + G[path[-1]][i]['time'] + G[i][albergo]['time']) < TMax:
+        if choice_nodes == []:
+          choice_nodes = [i]
+        else:
+          for j in range(len(choice_nodes)):
+            if G.nodes[i]['score'] > G.nodes[choice_nodes[j]]['score']:
+              choice_nodes.insert(j,i)
+              break
+          choice_nodes.append(i)
+  
+  if choice_nodes == []:
+    return []
+  else:
+    return random.choice(choice_nodes[:k])
+
+
+
+def ricerca_greedy_random(G,albergo,TMax):
+  path = [albergo]
+  while True:
+    newnode = add_random(G,path,albergo,TMax,10)
+    if newnode == []:
+      path.append(albergo)
+      return path
+    else:
+      path.append(newnode)
