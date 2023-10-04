@@ -32,11 +32,11 @@ def best_improvement(G, route, paths, TMax):
   return route
 
 
-def ls_opt2_add_remove(G,albergo,TMax):
+def ls_opt2_add_remove(G,initpath,albergo,TMax):
   best_path = []
   best_score = 0
-  path = ricerca_greedy_nn(G,albergo,TMax)
-
+  #path = ricerca_greedy_nn(G,albergo,TMax)
+  path = initpath
   while True:
     paths = opt2(G,path,1,TMax)
     
@@ -52,10 +52,11 @@ def ls_opt2_add_remove(G,albergo,TMax):
       best_path = path
       best_score = score
 
-def ls_swap_add_remove(G,albergo,TMax):
+def ls_swap_add_remove(G,initpath,albergo,TMax):
   best_path = []
   best_score = 0
-  path = ricerca_greedy_nn(G,albergo,TMax)
+  #path = ricerca_greedy_nn(G,albergo,TMax)
+  path = initpath
 
   while True:
     paths = swaps(G,path,1,TMax)

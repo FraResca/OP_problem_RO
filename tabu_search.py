@@ -46,7 +46,7 @@ def tabu_search(G,albergo,TMax):
 
   MaxTabuList = 10
   cont = 0
-  MaxIter = 100
+  MaxIter = 1000
   path = ricerca_greedy_nn(G,albergo,TMax)
   _,best_score = misura(G,path)
   best_path = path
