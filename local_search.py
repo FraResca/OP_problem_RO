@@ -64,7 +64,7 @@ def ls_swap_add_remove(G,initpath,albergo,TMax):
     paths = remove_moves(G,path,TMax)
     path = best_improvement(G,path,paths,TMax)
     _,score = misura(G,path)
-    
+    #print(path)
     if path == best_path:
       return path
 
