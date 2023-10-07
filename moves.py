@@ -35,7 +35,6 @@ def best_add(G,path,TMax):
   else: return best_path
 
 
-
 def best_add_ind(G,path,TMax):
   paths = add_moves(G,path,TMax)
   best_path = []
