@@ -12,9 +12,10 @@ def from_op_format(filename):
     TMax = float(first_row[0])
 
     for i in range(1,len(op_file)):
-        row = op_file[i].split("\t")
-        G.add_node((i-1),x=float(row[0]), y=float(row[1]), score=int(row[2]))
-    
+        if op_file[i] != '':
+            row = op_file[i].split("\t")
+            G.add_node((i-1),x=float(row[0]), y=float(row[1]), score=int(row[2]))
+        
     for i in range(len(G.nodes)-1):
         for j in range(i+1, len(G.nodes)):
             G.add_edge(i,j,time=euclidean_distance(G.nodes[i]["x"],G.nodes[i]["y"],G.nodes[j]["x"],G.nodes[j]["y"]))
@@ -22,7 +23,6 @@ def from_op_format(filename):
     return TMax,G
 
 def from_ferrara():
-    TMax = 90
     G = nx.Graph()
     with open('interesse.csv') as csv_file:
         lines = csv_file.readlines()
@@ -45,4 +45,4 @@ def from_ferrara():
             G.add_edge(i,j,time=time)
             G.add_edge(j,i,time=time)
 
-    return TMax,G
+    return G

@@ -46,10 +46,9 @@ def newson(G,albergo,pool,TMax):
             return newpath
     return ricerca_greedy_random(G,albergo,TMax)
 
-def genetic_ibrid(G,albergo,TMax,MaxIter):
-    DimPool = 50
+def genetic_ibrid(G,albergo,TMax,MaxIter,DimPool):
     pool = []
-    # crea i primi 
+
     for _ in range(DimPool):
         greedy = ricerca_greedy_random(G,albergo,TMax)
         newpool = insert_sorted(G,pool,greedy,DimPool)

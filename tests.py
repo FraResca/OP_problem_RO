@@ -79,11 +79,11 @@ def all_tests(TMax,G):
             print("Grasp")
             print(grasp, misura(G,grasp))
 
-            ts_grasp = tabu_search(G,grasp,TMax,100)
+            ts_grasp = tabu_search(G,grasp,TMax,50)
             print("Ricerca Tabu - Grasp")
             print(ts_grasp, misura(G,ts_grasp))
 
-            gen = genetic_ibrid(G,node,TMax,50)
+            gen = genetic_ibrid(G,node,TMax,50,10)
             print("Algoritmo Genetico Ibrido")
             print(gen, misura(G,gen))
 
@@ -93,8 +93,36 @@ def test_OP_format(filerelpath):
     TMax,G = from_op_format(filerelpath)
     all_tests(TMax,G)
 
-def test_Ferrara():
-    TMax,G = from_ferrara()
+def test_Ferrara(TMax):
+    G = from_ferrara()
     all_tests(TMax,G)
 
-test_Ferrara()
+print("Chao 64 - 50\n")
+test_OP_format("set_64_1/set_64_1_50.txt")
+print("Chao 64 - 80\n")
+test_OP_format("set_64_1/set_64_1_80.txt")
+
+print("Chao 66 - 85\n")
+test_OP_format("set_64_1/set_66_1_085.txt")
+print("Chao 66 - 130\n")
+test_OP_format("set_64_1/set_66_1_130.txt")
+
+print("Tsiligrides 1 - 60\n")
+test_OP_format("Tsiligrides_1/tsiligirides_problem_1_budget_60.txt")
+print("Tsiligrides 1 - 85\n")
+test_OP_format("Tsiligrides_1/tsiligirides_problem_1_budget_85.txt")
+
+print("Tsiligrides 2 - 30\n")
+test_OP_format("Tsiligrides_2/tsiligirides_problem_2_budget_30.txt")
+print("Tsiligrides 2 - 45\n")
+test_OP_format("Tsiligrides_2/tsiligirides_problem_2_budget_45.txt")
+
+print("Tsiligrides 3 - 30\n")
+test_OP_format("Tsiligrides_3/tsiligirides_problem_3_budget_70.txt")
+print("Tsiligrides 3 - 30\n")
+test_OP_format("Tsiligrides_3/tsiligirides_problem_3_budget_110.txt")
+
+print("Ferrara - 60")
+test_Ferrara(60)
+print("Ferrara - 90")
+test_Ferrara(90)
