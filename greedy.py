@@ -9,13 +9,12 @@ def ricerca_greedy_max_grad(G, albergo, TMax):
   t_tot = 0
   end = False
 
-  while end == False:
+  while True:
     succs = []
     maxgrad = 0
-    maxnode = 0
     for i in range(len(G.nodes)):
       if i not in path:
-        if (t_tot + G[path[-1]][i]['time'] + G[i][albergo]['time']) < TMax and G.nodes[i]['score'] > 0:
+        if (t_tot + G[path[-1]][i]['time'] + G[i][albergo]['time']) < TMax:
           if G.nodes[i]['score'] > maxgrad:
             maxnode=i
             maxgrad=G.nodes[i]['score']
@@ -23,12 +22,10 @@ def ricerca_greedy_max_grad(G, albergo, TMax):
     if succs == []:
       t_tot += G[path[-1]][albergo]['time']
       path.append(albergo)
-      end = True
+      return path
     else:
       t_tot += G[path[-1]][maxnode]['time']
       path.append(maxnode)
-
-  return path
 
 
 def ricerca_greedy_nn(G, albergo, maxtime):
@@ -79,7 +76,26 @@ def ricerca_greedy_max_insert(G,albergo,TMax):
     else:
       path = better_path
 
-        
+def misura_ind(G,path):
+  ind = 0
+  for i in range(0,len(path)-1):
+    if G.nodes[i]["score"] != 0:
+      ind += G.nodes[i]['score']/G[path[0]][i]['time']
+  return ind
+
+def best_add_ind(G,path,TMax):
+  paths = add_moves(G,path,TMax)
+  best_path = []
+  best_score = 0
+  for path in paths:
+    score = misura_ind(G,path)
+    if score > best_score:
+      best_path = path
+      best_score = score
+  if best_path == []:
+    return path
+  else: return best_path
+
 def ricerca_greedy_ind_insert(G,albergo,TMax):
   path = [albergo,albergo]
   while True:
@@ -110,8 +126,6 @@ def add_random(G,path,albergo,TMax,k):
   else:
     return random.choice(choice_nodes[:k])
 
-
-
 def ricerca_greedy_random(G,albergo,TMax):
   path = [albergo]
   while True:
@@ -121,3 +135,4 @@ def ricerca_greedy_random(G,albergo,TMax):
       return path
     else:
       path.append(newnode)
+

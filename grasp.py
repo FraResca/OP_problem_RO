@@ -8,9 +8,10 @@ def ricerca_grasp(G,albergo,TMax,Iter):
     best_score = 0
     best_path = []
     for i in range(Iter):    
+
         path = ricerca_greedy_random(G,albergo,TMax)
-        path = ls_swap_add_remove(G,path,0,TMax)
-        print(path, misura(G,path))
+        path = ls_opt2_add_remove(G,path,TMax)
+
         _,score = misura(G,path)
         
         if score > best_score:

@@ -3,8 +3,8 @@ import copy
 
 def add_moves(G,path,TMax):
   movlist = []
-  for i in range(4,len(G.nodes)):
-    if i not in path:
+  for i in range(len(G.nodes)):
+    if i not in path and G.nodes[i]["score"] > 0:
       for j in range(1,len(path)):
         cpypath = copy.copy(path)
         cpypath.insert(j,i)
@@ -27,20 +27,6 @@ def best_add(G,path,TMax):
   best_score = 0
   for path in paths:
     _,score = misura(G,path)
-    if score > best_score:
-      best_path = path
-      best_score = score
-  if best_path == []:
-    return path
-  else: return best_path
-
-
-def best_add_ind(G,path,TMax):
-  paths = add_moves(G,path,TMax)
-  best_path = []
-  best_score = 0
-  for path in paths:
-    score = misura_ind(G,path)
     if score > best_score:
       best_path = path
       best_score = score
