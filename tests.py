@@ -75,18 +75,14 @@ def all_tests(TMax,G):
             print("Ricerca Tabu - Miglior Ricerca Locale")
             print(ts_ls, misura(G,ts_ls))
             
+            ts_ls_divint = tabu_search_div_int(G,best_route(G,ls_results),TMax,100)
+            print("Ricerca Tabu Intensificazione Diversificazione")
+            print(ts_ls_divint, misura(G,ts_ls_divint))
+            
             grasp = ricerca_grasp(G,node,TMax,25)
             print("Grasp")
             print(grasp, misura(G,grasp))
-
-            ts_grasp = tabu_search(G,grasp,TMax,50)
-            print("Ricerca Tabu - Grasp")
-            print(ts_grasp, misura(G,ts_grasp))
-
-            gen = genetic_ibrid(G,node,TMax,50,10)
-            print("Algoritmo Genetico Ibrido")
-            print(gen, misura(G,gen))
-
+            
             print("\n")
 
 def test_OP_format(filerelpath):
