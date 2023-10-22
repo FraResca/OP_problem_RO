@@ -151,7 +151,7 @@ def all_tests(TMax,G):
             ls_results = [ls_mg_swap,ls_nn_swap,ls_mi_swap,ls_mg_2opt,ls_nn_2opt,ls_mi_2opt]
 
             start = time.time()
-            ts_ls = tabu_search(G,best_route(G,ls_results),TMax,100)
+            ts_ls = tabu_search(G,best_route(G,ls_results),TMax,200)
             end = time.time()
             print("Ricerca Tabu - Miglior Ricerca Locale")
             print(ts_ls, misura(G,ts_ls))
@@ -162,7 +162,7 @@ def all_tests(TMax,G):
             results['TSLS']['elap_time'] = end-start
             
             start = time.time()
-            ts_ls_int = tabu_search_int_div(G,best_route(G,ls_results),TMax,100)
+            ts_ls_int = tabu_search_int_div(G,best_route(G,ls_results),TMax,200)
             end = time.time()
             print("Ricerca Tabu Intensificazione Diversificazione - Miglior Ricerca Locale")
             print(ts_ls_int, misura(G,ts_ls_int))
@@ -206,32 +206,20 @@ def test_Ferrara(TMax):
         json.dump(result,outfile)
 
 
-print("Chao 64 - 50\n")
-test_OP_format("set_64_1/set_64_1_50.txt")
 print("Chao 64 - 80\n")
 test_OP_format("set_64_1/set_64_1_80.txt")
 
-print("Chao 66 - 85\n")
-test_OP_format("set_66_1/set_66_1_085.txt")
 print("Chao 66 - 130\n")
 test_OP_format("set_66_1/set_66_1_130.txt")
 
-print("Tsiligrides 1 - 60\n")
-test_OP_format("Tsiligrides_1/tsiligirides_problem_1_budget_60.txt")
 print("Tsiligrides 1 - 85\n")
 test_OP_format("Tsiligrides_1/tsiligirides_problem_1_budget_85.txt")
 
-print("Tsiligrides 2 - 30\n")
-test_OP_format("Tsiligrides_2/tsiligirides_problem_2_budget_30.txt")
 print("Tsiligrides 2 - 45\n")
 test_OP_format("Tsiligrides_2/tsiligirides_problem_2_budget_45.txt")
 
-print("Tsiligrides 3 - 30\n")
-test_OP_format("Tsiligrides_3/tsiligirides_problem_3_budget_70.txt")
-print("Tsiligrides 3 - 30\n")
+print("Tsiligrides 3 - 110\n")
 test_OP_format("Tsiligrides_3/tsiligirides_problem_3_budget_110.txt")
 
-print("Ferrara - 60")
-test_Ferrara(60)
 print("Ferrara - 90")
 test_Ferrara(90)
