@@ -22,9 +22,10 @@ def best_route(G,routes):
     return best_route
 
 def all_tests(TMax,G):
-    results = defaultdict(dict)
+    tot_results = defaultdict(dict)
     for node in range(len(G.nodes)):
         if G.nodes[node]["score"] == 0:
+            results = defaultdict(dict)
             print(f"Albergo {node}:\n")
             
             start = time.time()
@@ -182,10 +183,12 @@ def all_tests(TMax,G):
             results['Grasp']['score'] = score
             results['Grasp']['duration'] = tempo
             results['Grasp']['elap_time'] = end-start
-            
-            print("\n")
 
-            return results
+            print("\n")
+            
+            tot_results[node] = results
+
+    return tot_results
 
 def test_OP_format(filerelpath):
     filename = os.path.basename(filerelpath)
@@ -210,12 +213,12 @@ def test_Ferrara(TMax):
 
 test_OP_format("set_64_1/set_64_1_50.txt")
 
-test_OP_format("set_66_1/set_66_1_50.txt")
+test_OP_format("set_66_1/set_66_1_050.txt")
 
-test_OP_format("Tsiligrides_1/tsiligirides_problem_1_budget_50.txt")
+test_OP_format("Tsiligirides_1/tsiligirides_problem_1_budget_50.txt")
 
-test_OP_format("Tsiligrides_2/tsiligirides_problem_2_budget_45.txt")
+test_OP_format("Tsiligirides_2/tsiligirides_problem_2_budget_45.txt")
 
-test_OP_format("Tsiligrides_3/tsiligirides_problem_3_budget_50.txt")
+test_OP_format("Tsiligirides_3/tsiligirides_problem_3_budget_050.txt")
 
 test_Ferrara(50)
