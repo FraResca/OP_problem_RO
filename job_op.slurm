@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=op_job
 #SBATCH --nodes=1
-#SBATCH --time=08:00:00
+#SBATCH --time=05:00:00
 #SBATCH --error=op_job.err
 #SBATCH --output=op_job.out
 #SBATCH --partition=longrun
