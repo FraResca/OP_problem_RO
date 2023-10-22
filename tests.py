@@ -188,9 +188,10 @@ def all_tests(TMax,G):
             return results
 
 def test_OP_format(filerelpath):
+    filename = os.path.basename(filerelpath)
+    print(filename,"\n")
     TMax,G = from_op_format(filerelpath)
     result = all_tests(TMax,G)
-    filename = os.path.basename(filerelpath)
     filename = filename.split('.')
     filename = filename[0]
     filename = f"{filename}.json"
@@ -199,6 +200,7 @@ def test_OP_format(filerelpath):
     
 
 def test_Ferrara(TMax):
+    print("Ferrara_{TMax}\n")
     G = from_ferrara()
     result = all_tests(TMax,G)
     filename = f"Ferrara_{TMax}.json"
@@ -206,20 +208,14 @@ def test_Ferrara(TMax):
         json.dump(result,outfile)
 
 
-print("Chao 64 - 80\n")
-test_OP_format("set_64_1/set_64_1_80.txt")
+test_OP_format("set_64_1/set_64_1_50.txt")
 
-print("Chao 66 - 130\n")
-test_OP_format("set_66_1/set_66_1_130.txt")
+test_OP_format("set_66_1/set_66_1_50.txt")
 
-print("Tsiligrides 1 - 85\n")
-test_OP_format("Tsiligrides_1/tsiligirides_problem_1_budget_85.txt")
+test_OP_format("Tsiligrides_1/tsiligirides_problem_1_budget_50.txt")
 
-print("Tsiligrides 2 - 45\n")
 test_OP_format("Tsiligrides_2/tsiligirides_problem_2_budget_45.txt")
 
-print("Tsiligrides 3 - 110\n")
-test_OP_format("Tsiligrides_3/tsiligirides_problem_3_budget_110.txt")
+test_OP_format("Tsiligrides_3/tsiligirides_problem_3_budget_50.txt")
 
-print("Ferrara - 90")
-test_Ferrara(90)
+test_Ferrara(50)
