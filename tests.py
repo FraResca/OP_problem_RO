@@ -27,13 +27,13 @@ def all_tests(TMax,G):
         if G.nodes[node]["score"] == 0:
             print(f"Albergo {node}:\n")
             
-            #greedy
             start = time.time()
             greedy_max_grad = ricerca_greedy_max_grad(G,node,TMax)
             end = time.time()
             print("Greedy Massimo Gradimento")
             print(greedy_max_grad, misura(G, greedy_max_grad))
             tempo,score = misura(G, greedy_max_grad)
+            results['GreedyMaxGrad']['path'] = greedy_max_grad
             results['GreedyMaxGrad']['score'] = score
             results['GreedyMaxGrad']['duration'] = tempo
             results['GreedyMaxGrad']['elap_time'] = end-start  
@@ -44,6 +44,7 @@ def all_tests(TMax,G):
             print("Greedy Nearest Neighbour:")
             print(greedy_nn, misura(G, greedy_nn))
             tempo,score = misura(G, greedy_nn)
+            results['GreedyNearNeigh']['path'] = greedy_nn
             results['GreedyNearNeigh']['score'] = score
             results['GreedyNearNeigh']['duration'] = tempo
             results['GreedyNearNeigh']['elap_time'] = end-start
@@ -54,6 +55,7 @@ def all_tests(TMax,G):
             print("Greedy Massimo Inserimento:")
             print(greedy_max_ins, misura(G,greedy_max_ins))
             tempo,score = misura(G, greedy_max_ins)
+            results['GreedyMaxIns']['path'] = greedy_max_ins
             results['GreedyMaxIns']['score'] = score
             results['GreedyMaxIns']['duration'] = tempo
             results['GreedyMaxIns']['elap_time'] = end-start
@@ -64,6 +66,7 @@ def all_tests(TMax,G):
             print("Greedy Inserimento sulla base di Indice")
             print(greedy_ind_ins, misura(G,greedy_ind_ins))
             tempo,score = misura(G, greedy_ind_ins)
+            results['GreedyIndIns']['path'] = greedy_ind_ins
             results['GreedyIndIns']['score'] = score
             results['GreedyIndIns']['duration'] = tempo
             results['GreedyIndIns']['elap_time'] = end-start
@@ -74,6 +77,7 @@ def all_tests(TMax,G):
             print("Greedy Random")
             print(greedy_rand, misura(G,greedy_rand))
             tempo,score = misura(G, greedy_rand)
+            results['GreedyRand']['path'] = greedy_rand
             results['GreedyRand']['score'] = score
             results['GreedyRand']['duration'] = tempo
             results['GreedyRand']['elap_time'] = end-start
@@ -84,6 +88,7 @@ def all_tests(TMax,G):
             print("Ricerca locale - Greedy Massimo Gradimento - Swap")
             print(ls_mg_swap, misura(G,ls_mg_swap))
             tempo,score = misura(G, ls_mg_swap)
+            results['LSMGSwap']['path'] = ls_mg_swap
             results['LSMGSwap']['score'] = score
             results['LSMGSwap']['duration'] = tempo
             results['LSMGSwap']['elap_time'] = end-start
@@ -94,6 +99,7 @@ def all_tests(TMax,G):
             print("Ricerca locale - Greedy Nearest Neighbour - Swap")
             print(ls_nn_swap, misura(G,ls_nn_swap))
             tempo,score = misura(G, ls_nn_swap)
+            results['LSNNSwap']['path'] = ls_nn_swap
             results['LSNNSwap']['score'] = score
             results['LSNNSwap']['duration'] = tempo
             results['LSNNSwap']['elap_time'] = end-start
@@ -104,6 +110,7 @@ def all_tests(TMax,G):
             print("Ricerca locale - Greedy Massimo Inserimento - Swap")
             print(ls_mi_swap, misura(G,ls_mi_swap))
             tempo,score = misura(G, ls_mi_swap)
+            results['LSMISwap']['path'] = ls_mi_swap
             results['LSMISwap']['score'] = score
             results['LSMISwap']['duration'] = tempo
             results['LSMISwap']['elap_time'] = end-start
@@ -114,6 +121,7 @@ def all_tests(TMax,G):
             print("Ricerca locale - Greedy Massimo Gradimento - 2opt")
             print(ls_mg_2opt, misura(G,ls_mg_2opt))
             tempo,score = misura(G, ls_mg_2opt)
+            results['LSMG2opt']['path'] = ls_mg_2opt
             results['LSMG2opt']['score'] = score
             results['LSMG2opt']['duration'] = tempo
             results['LSMG2opt']['elap_time'] = end-start
@@ -124,6 +132,7 @@ def all_tests(TMax,G):
             print("Ricerca locale - Greedy Nearest Neighbour - 2opt")
             print(ls_nn_2opt, misura(G,ls_nn_2opt))
             tempo,score = misura(G, ls_nn_2opt)
+            results['LSNN2opt']['path'] = ls_nn_2opt
             results['LSNN2opt']['score'] = score
             results['LSNN2opt']['duration'] = tempo
             results['LSNN2opt']['elap_time'] = end-start
@@ -134,6 +143,7 @@ def all_tests(TMax,G):
             print("Ricerca locale - Greedy Massimo Inserimento - 2opt")
             print(ls_mi_2opt, misura(G,ls_mi_2opt))
             tempo,score = misura(G, ls_mi_2opt)
+            results['LSMI2opt']['path'] = ls_mi_2opt
             results['LSMI2opt']['score'] = score
             results['LSMI2opt']['duration'] = tempo
             results['LSMI2opt']['elap_time'] = end-start
@@ -146,6 +156,7 @@ def all_tests(TMax,G):
             print("Ricerca Tabu - Miglior Ricerca Locale")
             print(ts_ls, misura(G,ts_ls))
             tempo,score = misura(G, ts_ls)
+            results['TSLS']['path'] = ts_ls
             results['TSLS']['score'] = score
             results['TSLS']['duration'] = tempo
             results['TSLS']['elap_time'] = end-start
@@ -156,6 +167,7 @@ def all_tests(TMax,G):
             print("Ricerca Tabu Intensificazione Diversificazione - Miglior Ricerca Locale")
             print(ts_ls_int, misura(G,ts_ls_int))
             tempo,score = misura(G, ts_ls_int)
+            results['TSLSINT']['path'] = ts_ls_int
             results['TSLSINT']['score'] = score
             results['TSLSINT']['duration'] = tempo
             results['TSLSINT']['elap_time'] = end-start
@@ -166,6 +178,7 @@ def all_tests(TMax,G):
             print("Grasp")
             print(grasp, misura(G,grasp))
             tempo,score = misura(G, grasp)
+            results['Grasp']['path'] = grasp
             results['Grasp']['score'] = score
             results['Grasp']['duration'] = tempo
             results['Grasp']['elap_time'] = end-start
@@ -192,12 +205,11 @@ def test_Ferrara(TMax):
     with open(filename,'w') as outfile:
         json.dump(result,outfile)
 
-'''
+
 print("Chao 64 - 50\n")
 test_OP_format("set_64_1/set_64_1_50.txt")
 print("Chao 64 - 80\n")
 test_OP_format("set_64_1/set_64_1_80.txt")
-'''
 
 print("Chao 66 - 85\n")
 test_OP_format("set_66_1/set_66_1_085.txt")
