@@ -4,10 +4,12 @@ from local_search import *
 from istance_parser import*
 import copy
 
-def tabu_remove(G,path):
+def tabu_remove(G,path,intens):
   best_score = 0
+
+
   for i in path:
-    if i != path[0]:
+    if i != path[0] and i not in intens:
       newpath = copy.copy(path)
       newpath.remove(i)
       _,newscore = misura(G,newpath)
@@ -15,12 +17,12 @@ def tabu_remove(G,path):
         best_path = newpath
         best_score = newscore
         tabu_node = i
-  return best_path, tabu_node
+  return best_path,tabu_node
 
-def tabu_add_moves(G,path,tabu_list,TMax):
+def tabu_add_moves(G,path,tabu_list,TMax,divers):
   movlist = []
   for i in range(len(G.nodes)):
-    if i not in path and i not in tabu_list and G.nodes[i]["score"] > 0:
+    if i not in path and i not in tabu_list and i not in divers and G.nodes[i]["score"] > 0:
       for j in range(1,len(path)):
         cpypath = copy.copy(path)
         cpypath.insert(j,i)
@@ -28,11 +30,11 @@ def tabu_add_moves(G,path,tabu_list,TMax):
           movlist.append(cpypath)
   return movlist
 
-def tabu_best_improvement(G,route,paths,tabu_list,TMax):
+def tabu_best_improvement(G,route,paths,tabu_list,TMax,divers):
   addlist = []
   _,score = misura(G,route)
   for path in paths:
-    addlist += tabu_add_moves(G,path,tabu_list,TMax)
+    addlist += tabu_add_moves(G,path,tabu_list,TMax,divers)
 
   for add in addlist:
     _,temp_score = misura(G,add)
@@ -53,12 +55,12 @@ def tabu_search(G,path,TMax,MaxIter):
 
   while True:
     paths = opt2(G,path,1,TMax)
-    newpath = tabu_best_improvement(G,path,paths,tabu_list,TMax)
+    newpath = tabu_best_improvement(G,path,paths,tabu_list,TMax,[])
     
     cont += 1
     
     if newpath == path:
-      path,tabu_node = tabu_remove(G,path)
+      path,tabu_node = tabu_remove(G,path,[])
       tabu_list.append(tabu_node)
       if len(tabu_list) > MaxTabuList:
         del tabu_list[0]
@@ -73,48 +75,12 @@ def tabu_search(G,path,TMax,MaxIter):
     if cont > MaxIter:
       return best_path
 
-
-def tabu_remove_int(G,path,intens):
-  best_score = 0
-
-  for i in path:
-    if i != path[0] and i not in intens:
-      newpath = copy.copy(path)
-      newpath.remove(i)
-      _,newscore = misura(G,newpath)
-      if newscore > best_score:
-        best_path = newpath
-        best_score = newscore
-        tabu_node = i
-  return best_path, tabu_node
-
-def tabu_add_moves_div(G,path,tabu_list,TMax,divers):
-  movlist = []
-  for i in range(len(G.nodes)):
-    if i not in path and i not in tabu_list and i not in divers and G.nodes[i]["score"] > 0:
-      for j in range(1,len(path)):
-        cpypath = copy.copy(path)
-        cpypath.insert(j,i)
-        if(path_accettabile(G,cpypath,TMax)):
-          movlist.append(cpypath)
-  return movlist
-
-def tabu_best_improvement_div(G,route,paths,tabu_list,TMax,divers):
-  addlist = []
-  _,score = misura(G,route)
-  for path in paths:
-    addlist += tabu_add_moves_div(G,path,tabu_list,TMax,divers)
-
-  for add in addlist:
-    _,temp_score = misura(G,add)
-    if temp_score > score:
-      route = add
-      score = temp_score
-
-  return route
-
 def intersection(lst1, lst2):
     lst3 = [value for value in lst1 if value in lst2]
+    return lst3
+
+def disgiunction(lst1, lst2):
+    lst3 = [value for value in lst1 if value not in lst2]
     return lst3
 
 def multi_intersection(lists):
@@ -137,9 +103,18 @@ def neg_tendency(last_list):
         return False
     return True
 
-# Forse ho capito male
-def tabu_search_div_int(G,path,TMax,MaxIter):
+def thin(G,fat):
+  thinner = copy.copy(fat)
+  worst_score = 1000
+  for i in thinner:
+    if i != thinner[0]:
+      if G.nodes[thinner[i]]['score'] < worst_score:
+        worst_node = i
+  del thinner[worst_node]
+  return thinner
 
+def tabu_search_int_div(G,path,TMax,MaxIter):
+  albergo = path[0]
   MaxTabuList = 5
   MaxMemoria = 5
   cont = 0
@@ -152,12 +127,12 @@ def tabu_search_div_int(G,path,TMax,MaxIter):
 
   while True:
     paths = opt2(G,path,1,TMax)
-    newpath = tabu_best_improvement_div(G,path,paths,tabu_list,TMax,divers)
+    newpath = tabu_best_improvement(G,path,paths,tabu_list,TMax,divers)
     
     cont += 1
     
     if newpath == path:
-      path,tabu_node = tabu_remove_int(G,path,intens)
+      path,tabu_node = tabu_remove(G,path,intens)
       tabu_list.append(tabu_node)
       if len(tabu_list) > MaxTabuList:
         del tabu_list[0]
@@ -176,29 +151,13 @@ def tabu_search_div_int(G,path,TMax,MaxIter):
       if len(last_list) == MaxMemoria:
         if pos_tendency(last_list) == True:
           intens = multi_intersection(last_list)
-        elif pos_tendency(last_list) == False and intens != []:
-          intens = []
-
-
+          while len(intens) > len(path)/2:
+            intens = thin(G,intens)
+          divers = []
         if neg_tendency(last_list) == True:
           divers = multi_intersection(last_list)
-        elif neg_tendency(last_list) == False and divers != []:
-          divers = []
-
-
-      print("Path:",path)
-      print("Tabu list:",tabu_list)
-      print("Intensificazione",intens)
-      print("Diversificazione",divers)
-      print("Memoria")
-      for i in last_list:
-        print(i)
+          path = [albergo] + disgiunction(path,divers) + [albergo]
+          intens = []
 
       if cont > MaxIter:
         return best_path
-
-
-TMax,G = from_op_format("set_64_1/set_64_1_50.txt")
-path = ricerca_greedy_max_grad(G,0,TMax)
-res = tabu_search_div_int(G,path,TMax,100)
-print(res,misura(G,res))
