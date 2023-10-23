@@ -213,7 +213,7 @@ def test_Ferrara(TMax):
 
 test_OP_format("set_64_1/set_64_1_50.txt")
 test_OP_format("set_64_1/set_64_1_80.txt")
-test_OP_format("set_66_1/set_66_1_050.txt")
+test_OP_format("set_66_1/set_66_1_080.txt")
 test_OP_format("set_66_1/set_66_1_130.txt")
 test_OP_format("Tsiligirides_1/tsiligirides_problem_1_budget_50.txt")
 test_OP_format("Tsiligirides_1/tsiligirides_problem_1_budget_85.txt")
