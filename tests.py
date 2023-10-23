@@ -152,7 +152,7 @@ def all_tests(TMax,G):
             ls_results = [ls_mg_swap,ls_nn_swap,ls_mi_swap,ls_mg_2opt,ls_nn_2opt,ls_mi_2opt]
 
             start = time.time()
-            ts_ls = tabu_search(G,best_route(G,ls_results),TMax,200)
+            ts_ls = tabu_search(G,best_route(G,ls_results),TMax,50)
             end = time.time()
             print("Ricerca Tabu - Miglior Ricerca Locale")
             print(ts_ls, misura(G,ts_ls))
@@ -163,7 +163,7 @@ def all_tests(TMax,G):
             results['TSLS']['elap_time'] = end-start
             
             start = time.time()
-            ts_ls_int = tabu_search_int_div(G,best_route(G,ls_results),TMax,200)
+            ts_ls_int = tabu_search_int_div(G,best_route(G,ls_results),TMax,50)
             end = time.time()
             print("Ricerca Tabu Intensificazione Diversificazione - Miglior Ricerca Locale")
             print(ts_ls_int, misura(G,ts_ls_int))
@@ -212,13 +212,14 @@ def test_Ferrara(TMax):
 
 
 test_OP_format("set_64_1/set_64_1_50.txt")
-
+test_OP_format("set_64_1/set_64_1_80.txt")
 test_OP_format("set_66_1/set_66_1_050.txt")
-
+test_OP_format("set_66_1/set_66_1_130.txt")
 test_OP_format("Tsiligirides_1/tsiligirides_problem_1_budget_50.txt")
-
+test_OP_format("Tsiligirides_1/tsiligirides_problem_1_budget_85.txt")
+test_OP_format("Tsiligirides_2/tsiligirides_problem_2_budget_35.txt")
 test_OP_format("Tsiligirides_2/tsiligirides_problem_2_budget_45.txt")
-
 test_OP_format("Tsiligirides_3/tsiligirides_problem_3_budget_050.txt")
+test_OP_format("Tsiligirides_3/tsiligirides_problem_3_budget_110.txt")
 
 test_Ferrara(50)
