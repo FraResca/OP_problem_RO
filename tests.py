@@ -221,5 +221,5 @@ test_OP_format("Tsiligirides_2/tsiligirides_problem_2_budget_35.txt")
 test_OP_format("Tsiligirides_2/tsiligirides_problem_2_budget_45.txt")
 test_OP_format("Tsiligirides_3/tsiligirides_problem_3_budget_050.txt")
 test_OP_format("Tsiligirides_3/tsiligirides_problem_3_budget_110.txt")
-
-test_Ferrara(50)
+test_Ferrara(60)
+test_Ferrara(90)
