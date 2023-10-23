@@ -107,7 +107,7 @@ def thin(G,fat):
   thinner = copy.copy(fat)
   worst_score = 1000
   for i in range(1,len(thinner)-1):
-    if G.nodes[i]['score'] < worst_score:
+    if G.nodes[thinner[i]]['score'] < worst_score:
       worst_node = i
   del thinner[worst_node]
   return thinner
