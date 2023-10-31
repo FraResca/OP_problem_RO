@@ -24,7 +24,7 @@ def plot_graph(G):
   #label2 = nx.get_node_attributes(G, 'gradimento')
   #label3 = nx.get_node_attributes(G, 'durata')
   edge_labels = nx.get_edge_attributes(G, 'tempo')
-  nx.draw(G, pos)
+  nx.draw(G, pos, ax=ax)
   nx.draw_networkx_labels(G, pos)
   nx.draw_networkx_nodes(G, pos, nodelist=cammino, node_color="tab:red")
   nx.draw_networkx_edges(G, pos, edgelist=edges, width=3, edge_color="tab:red")
@@ -32,6 +32,8 @@ def plot_graph(G):
   #nx.draw_networkx_labels(G, pos, label2)
   #nx.draw_networkx_labels(G, pos, label3)
   #nx.draw_networkx_edge_labels(G, pos, edge_labels)
+  ax.tick_params(left=True, bottom=True, labelleft=True, labelbottom=True)
+  plt.axis("on")
   plt.show()
 
 plot_graph(G)
