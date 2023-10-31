@@ -6,7 +6,7 @@ from local_search import *
 from tabu_search import *
 from grasp import *
 
-TMax,G = from_op_format("set_66_1_130.json")
+TMax,G = from_op_format("Tsiligirides_1\\tsiligirides_problem_1_budget_05.txt")
 path = ricerca_greedy_nn(G,0,TMax)
 
 def plot_graph(G):

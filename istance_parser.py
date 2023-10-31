@@ -1,4 +1,5 @@
 import networkx as nx
+import json
 from math import sqrt
 
 def euclidean_distance(x1,y1,x2,y2):
@@ -19,8 +20,17 @@ def from_op_format(filename):
     for i in range(len(G.nodes)-1):
         for j in range(i+1, len(G.nodes)):
             G.add_edge(i,j,time=euclidean_distance(G.nodes[i]["x"],G.nodes[i]["y"],G.nodes[j]["x"],G.nodes[j]["y"]))
-
+    
     return TMax,G
+
+def from_json_format(filename):
+    '''Parser per file json'''
+    G = nx.Graph()
+    f = open(filename)
+    json_file = f.load(f)
+    f.close()
+
+    return G  
 
 def from_ferrara():
     G = nx.Graph()
