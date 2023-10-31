@@ -6,10 +6,18 @@ from local_search import *
 from tabu_search import *
 from grasp import *
 
-TMax,G = from_op_format("Tsiligirides_1\\tsiligirides_problem_1_budget_05.txt")
+TMax,G = from_op_format("Tsiligirides_1\\tsiligirides_problem_1_budget_50.txt")
+
+# Path di test - tsiligirides_problem_1_budget_50.txt - poi lo tolgo
+cammino = [0, 15, 16, 24, 25, 26, 27, 28, 0]
+
 path = ricerca_greedy_nn(G,0,TMax)
 
 def plot_graph(G):
+
+  edges = []
+  for i in range(len(cammino)-1):
+    edges.append((cammino[i],cammino[i+1]))
   pos = nx.spring_layout(G, scale=2)
   #label1 = nx.get_node_attributes(G, 'nome')
   #label2 = nx.get_node_attributes(G, 'gradimento')
@@ -17,6 +25,8 @@ def plot_graph(G):
   edge_labels = nx.get_edge_attributes(G, 'tempo')
   nx.draw(G, pos)
   nx.draw_networkx_labels(G, pos)
+  nx.draw_networkx_nodes(G, pos, nodelist=cammino, node_color="tab:red")
+  nx.draw_networkx_edges(G, pos, edgelist=edges, width=3, edge_color="tab:red")
   #nx.draw_networkx_labels(G, pos, label1)
   #nx.draw_networkx_labels(G, pos, label2)
   #nx.draw_networkx_labels(G, pos, label3)
@@ -24,3 +34,5 @@ def plot_graph(G):
   plt.show()
 
 plot_graph(G)
+
+
