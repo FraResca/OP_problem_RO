@@ -4,7 +4,6 @@ from local_search import *
 from istance_parser import*
 import copy
 
-'''
 def tabu_remove(G,path,intens):
   best_score = 0
   for i in path:
@@ -19,6 +18,7 @@ def tabu_remove(G,path,intens):
         tabu_node = i
       
   return best_path,tabu_node
+
 '''
 def tabu_remove(path,intens):
   newpath = copy.copy(path)
@@ -27,7 +27,8 @@ def tabu_remove(path,intens):
   tabu_node = newpath[rand_node]
   del newpath[rand_node]
   return newpath,tabu_node
-
+'''
+  
 def tabu_add_moves(G,path,tabu_list,TMax,divers):
   movlist = []
   for i in range(len(G.nodes)):

@@ -1,4 +1,6 @@
 import networkx as nx
+import json
+
 from matplotlib import pyplot as plt
 
 from istance_parser import *
@@ -6,14 +8,11 @@ from local_search import *
 from tabu_search import *
 from grasp import *
 
-TMax,G = from_op_format("Tsiligirides_1\\tsiligirides_problem_1_budget_50.txt")
-
-# Path di test - tsiligirides_problem_1_budget_50.txt - poi lo tolgo
-cammino = [0, 15, 16, 24, 25, 26, 27, 28, 0]
+TMax,G = from_op_format("Tsiligirides_1/tsiligirides_problem_1_budget_50.txt")
 
 path = ricerca_greedy_nn(G,0,TMax)
 
-def plot_graph(G):
+def plot_graph(G,cammino):
 
   edges = []
   for i in range(len(cammino)-1):
@@ -36,6 +35,20 @@ def plot_graph(G):
   plt.axis("on")
   plt.show()
 
-plot_graph(G)
+def print_json(filepath):
+  f = open(filepath)
+  data = json.load(f)
+  for albergo in data:
+    print("Albergo: ", albergo)
+    for tecnica in data[albergo]:
+      print("\tTecnica: ", tecnica)
+      for metrica in data[albergo][tecnica]:
+        print("\t\t", metrica, data[albergo][tecnica][metrica])
+
+print_json("tsiligirides_problem_1_budget_50.json")
+
+plot_graph(G,path)
+
+
 
 

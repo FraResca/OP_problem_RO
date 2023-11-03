@@ -103,7 +103,7 @@ def ricerca_locale(G, initpath, TMax, movetype, depth, MaxIter):
         path = newpath
 
     _, score = misura(G, path)
-    # print(path)
+
     if cont == MaxIter:
         return best_path
 

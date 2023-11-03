@@ -88,7 +88,7 @@ def opt2(G,path,depth,TMax):
 
 
 def remove_moves(G,path,TMax):
-  movlist=[]
+  movlist = []
   for i in range(1,len(path)-1):
     cpypath = copy.copy(path)
     cpypath.remove(cpypath[i])
