@@ -211,7 +211,7 @@ def test_Ferrara(TMax):
     with open(filename,'w') as outfile:
         json.dump(result,outfile)
 
-
+'''
 test_OP_format("set_64_1/set_64_1_50.txt")
 test_OP_format("set_64_1/set_64_1_80.txt")
 test_OP_format("set_66_1/set_66_1_080.txt")
@@ -224,3 +224,4 @@ test_OP_format("Tsiligirides_3/tsiligirides_problem_3_budget_050.txt")
 test_OP_format("Tsiligirides_3/tsiligirides_problem_3_budget_110.txt")
 test_Ferrara(60)
 test_Ferrara(90)
+'''
