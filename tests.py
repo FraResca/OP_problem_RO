@@ -3,7 +3,6 @@ from greedy import *
 from local_search import *
 from tabu_search import *
 from grasp import *
-from pop_based import *
 from collections import defaultdict
 import time
 import os
@@ -150,9 +149,9 @@ def all_tests(TMax,G):
             results['LSMI2opt']['elap_time'] = end-start
 
             ls_results = [ls_mg_swap,ls_nn_swap,ls_mi_swap,ls_mg_2opt,ls_nn_2opt,ls_mi_2opt]
-
+            
             start = time.time()
-            ts_ls = tabu_search(G,best_route(G,ls_results),TMax,50)
+            ts_ls = tabu_search(G,best_route(G,ls_results),TMax,1000)
             end = time.time()
             print("Ricerca Tabu - Miglior Ricerca Locale")
             print(ts_ls, misura(G,ts_ls))
@@ -161,9 +160,9 @@ def all_tests(TMax,G):
             results['TSLS']['score'] = score
             results['TSLS']['duration'] = tempo
             results['TSLS']['elap_time'] = end-start
-            
+
             start = time.time()
-            ts_ls_int = tabu_search_int_div(G,best_route(G,ls_results),TMax,50)
+            ts_ls_int = tabu_search_int_div(G,best_route(G,ls_results),TMax,1000)
             end = time.time()
             print("Ricerca Tabu Intensificazione Diversificazione - Miglior Ricerca Locale")
             print(ts_ls_int, misura(G,ts_ls_int))
@@ -172,9 +171,9 @@ def all_tests(TMax,G):
             results['TSLSINT']['score'] = score
             results['TSLSINT']['duration'] = tempo
             results['TSLSINT']['elap_time'] = end-start
-            
+
             start = time.time()
-            grasp = ricerca_grasp(G,node,TMax,25)
+            grasp = ricerca_grasp(G,node,TMax,50)
             end = time.time()
             print("Grasp")
             print(grasp, misura(G,grasp))
@@ -198,6 +197,7 @@ def test_OP_format(filerelpath):
     filename = filename.split('.')
     filename = filename[0]
     filename = f"{filename}.json"
+    filename = "results/" + filename
     with open(filename,'w') as outfile:
         json.dump(result,outfile)
     
@@ -207,6 +207,7 @@ def test_Ferrara(TMax):
     G = from_ferrara()
     result = all_tests(TMax,G)
     filename = f"Ferrara_{TMax}.json"
+    filename = "results/" + filename
     with open(filename,'w') as outfile:
         json.dump(result,outfile)
 

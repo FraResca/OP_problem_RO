@@ -5,34 +5,17 @@ from istance_parser import*
 import copy
 
 def tabu_remove(G,path,intens):
-  best_score = 0
-  for i in path:
-    if i != path[0] and i not in intens:
-      
-      newpath = copy.copy(path)
-      newpath.remove(i)
-      _,newscore = misura(G,newpath)
-      if newscore > best_score:
-        best_path = newpath
-        best_score = newscore
-        tabu_node = i
-      
-  return best_path,tabu_node
-
-'''
-def tabu_remove(path,intens):
   newpath = copy.copy(path)
   nodes = [i for i in range(1,len(newpath)-1) if newpath[i] not in intens]
   rand_node = random.choice(nodes)
   tabu_node = newpath[rand_node]
   del newpath[rand_node]
   return newpath,tabu_node
-'''
   
-def tabu_add_moves(G,path,tabu_list,TMax,divers):
+def tabu_add_moves(G,path,tabu_list,TMax):
   movlist = []
   for i in range(len(G.nodes)):
-    if i not in path and i not in tabu_list and i not in divers and G.nodes[i]["score"] > 0:
+    if i not in path and i not in tabu_list and G.nodes[i]["score"] > 0:
       for j in range(1,len(path)):
         cpypath = copy.copy(path)
         cpypath.insert(j,i)
@@ -40,11 +23,11 @@ def tabu_add_moves(G,path,tabu_list,TMax,divers):
           movlist.append(cpypath)
   return movlist
 
-def tabu_best_improvement(G,route,paths,tabu_list,TMax,divers):
+def tabu_best_improvement(G,route,paths,tabu_list,TMax):
   addlist = []
   _,score = misura(G,route)
   for path in paths:
-    addlist += tabu_add_moves(G,path,tabu_list,TMax,divers)
+    addlist += tabu_add_moves(G,path,tabu_list,TMax)
 
   for add in addlist:
     _,temp_score = misura(G,add)
@@ -57,7 +40,7 @@ def tabu_best_improvement(G,route,paths,tabu_list,TMax,divers):
 
 def tabu_search(G,path,TMax,MaxIter):
 
-  MaxTabuList = 5
+  MaxTabuList = 10
   cont = 0
   _,best_score = misura(G,path)
   best_path = path
@@ -65,12 +48,12 @@ def tabu_search(G,path,TMax,MaxIter):
 
   while True:
     paths = opt2(G,path,1,TMax)
-    newpath = tabu_best_improvement(G,path,paths,tabu_list,TMax,[])
+    newpath = tabu_best_improvement(G,path,paths,tabu_list,TMax)
     
     cont += 1
     
     if newpath == path:
-      path,tabu_node = tabu_remove(path,[])
+      path,tabu_node = tabu_remove(G,path,[])
       tabu_list.append(tabu_node)
       if len(tabu_list) > MaxTabuList:
         del tabu_list[0]
@@ -85,92 +68,93 @@ def tabu_search(G,path,TMax,MaxIter):
     if cont > MaxIter:
       return best_path
 
-def intersection(lst1, lst2):
-    lst3 = [value for value in lst1 if value in lst2]
-    return lst3
 
-def disgiunction(lst1, lst2):
-    lst3 = [value for value in lst1 if value not in lst2]
-    return lst3
-
-def multi_intersection(lists):
-    inters = lists[0][0]
-    for i in range(1,len(lists)):
-      inters = intersection(inters,lists[i][0])
-    return inters    
-
-def pos_tendency(last_list):
-  if len(last_list) > 1:
-    for i in range(1,len(last_list)):
-      if last_list[i][1] <= last_list[i-1][1]:
-        return False
+def growing(G,mem):
+  _,last_score = misura(G,mem[0])
+  for i in range(1,len(mem)):
+    _,score = misura(G,mem[i])
+    if score >= last_score:
+      last_score = score
+    else: return False
   return True
 
-def neg_tendency(last_list):
-  if len(last_list) > 1:
-    for i in range(1,len(last_list)):
-      if last_list[i][1] > last_list[i-1][1]:
-        return False
-    return True
+def intersection(lst1, lst2):
+  lst3 = [value for value in lst1 if value in lst2]
+  return lst3
 
-def thin(G,fat):
-  thinner = copy.copy(fat)
-  worst_score = 1000
-  for i in range(1,len(thinner)-1):
-    if G.nodes[thinner[i]]['score'] < worst_score:
-      worst_node = i
-  del thinner[worst_node]
-  return thinner
+def multi_intersection(paths):
+  inters = paths[0]
+  for i in range(1,len(paths)):
+    inters = intersection(inters,paths[i])
+  return inters
+
+def intensification(G,mem,MaxInt):
+  intens = multi_intersection(mem)
+  intens = random.sample(intens,MaxInt)
+  return intens
+
+def disjunction(lst1, lst2):
+  lst3 = [value for value in lst1 if value not in lst2]
+  return lst3
+
+def multi_disjunction(paths):
+  inters = paths[0]
+  for i in range(1,len(paths)):
+    inters = disjunction(paths[i],inters)
+  return inters
+
+def diversification(G,mem,albergo):
+  divers = multi_disjunction(mem)
+  #divers = disjunction(mem[0],mem[-1])
+  divers = [albergo] + divers + [albergo]
+  return divers
 
 def tabu_search_int_div(G,path,TMax,MaxIter):
-  albergo = path[0]
+
   MaxTabuList = 5
-  MaxMem = 5
-  ShortMem = 3
   cont = 0
   _,best_score = misura(G,path)
   best_path = path
   tabu_list = []
-  long_mem = []
+  MaxMem = 20
+  LongMem = 10
+  ShortMem = 5
+  mem = []
+  MaxInt = 5
   intens = []
-  divers = []
-
+  
   while True:
     paths = opt2(G,path,1,TMax)
-    newpath = tabu_best_improvement(G,path,paths,tabu_list,TMax,[])
+    newpath = tabu_best_improvement(G,path,paths,tabu_list,TMax)
     
     cont += 1
     
     if newpath == path:
-      path,tabu_node = tabu_remove(path,intens)
+      path,tabu_node = tabu_remove(G,path,intens)
       tabu_list.append(tabu_node)
       if len(tabu_list) > MaxTabuList:
         del tabu_list[0]
     else:
       path = newpath
+      _,addscore = misura(G,newpath)
+      if addscore > best_score:
+        best_path = newpath
+        best_score = addscore
+        cont = 0
+    
+    if(len(tabu_list)!=0):
+      mem.append(path)
+      if len(mem) > MaxMem:
+        del mem[0]
 
-    _,addscore = misura(G,newpath)
-    if addscore > best_score:
-      best_path = newpath
-      best_score = addscore
-      cont = 0
-
-      long_mem.append([path,addscore])
-      if len(long_mem) > MaxMem:
-        del long_mem[0]
-
-      if len(long_mem) == MaxMem:
-        if pos_tendency(long_mem) == True:
-          intens = multi_intersection(long_mem)
-          while len(intens) > len(path)/2:
-            intens = thin(G,intens)
-          divers = []
-        else: intens = []
-        if neg_tendency(long_mem[:-ShortMem]) == True:
-          divers = multi_intersection(long_mem)
-          path = [albergo] + disgiunction(path,divers) + [albergo]
-          intens = []
-          cont = 0
+    if len(mem) >= ShortMem and growing(G,mem[-ShortMem:]):
+            intens = intensification(G,mem,MaxInt)
+    if len(mem) == MaxMem and len(tabu_list) == MaxTabuList:  
+        if not(growing(G,mem)):
+            path = diversification(G,mem[-LongMem:],path[0])
+            mem = []
+            intens = []
+            tabu_list = []
 
     if cont > MaxIter:
-        return best_path
+      return best_path
