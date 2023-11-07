@@ -90,7 +90,8 @@ def multi_intersection(paths):
 
 def intensification(G,mem,MaxInt):
   intens = multi_intersection(mem)
-  intens = random.sample(intens,MaxInt)
+  if len(intens) > MaxInt:
+    intens = random.sample(intens,MaxInt)
   return intens
 
 def disjunction(lst1, lst2):
@@ -105,7 +106,6 @@ def multi_disjunction(paths):
 
 def diversification(G,mem,albergo):
   divers = multi_disjunction(mem)
-  #divers = disjunction(mem[0],mem[-1])
   divers = [albergo] + divers + [albergo]
   return divers
 
