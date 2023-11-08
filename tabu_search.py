@@ -63,7 +63,7 @@ def tabu_search(G,path,TMax,MaxIter):
       if addscore > best_score:
         best_path = newpath
         best_score = addscore
-        cont = 0
+        #cont = 0
 
     if cont > MaxIter:
       return best_path
@@ -140,7 +140,7 @@ def tabu_search_int_div(G,path,TMax,MaxIter):
       if addscore > best_score:
         best_path = newpath
         best_score = addscore
-        cont = 0
+        #cont = 0
     
     if(len(tabu_list)!=0):
       mem.append(path)
