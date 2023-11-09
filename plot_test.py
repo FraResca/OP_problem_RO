@@ -1,5 +1,6 @@
 import networkx as nx
 import json
+import os
 
 from matplotlib import pyplot as plt
 
@@ -8,12 +9,12 @@ from local_search import *
 from tabu_search import *
 from grasp import *
 
-TMax,G = from_op_format("Tsiligirides_1/tsiligirides_problem_1_budget_50.txt")
+#TMax,G = from_op_format("Tsiligirides_1/tsiligirides_problem_1_budget_50.txt")
 
-path = ricerca_greedy_nn(G,0,TMax)
+#path = ricerca_greedy_nn(G,0,TMax)
 
 def plot_graph(G,cammino):
-
+  
   edges = []
   for i in range(len(cammino)-1):
     edges.append((cammino[i],cammino[i+1]))
@@ -45,10 +46,53 @@ def print_json(filepath):
       for metrica in data[albergo][tecnica]:
         print("\t\t", metrica, data[albergo][tecnica][metrica])
 
-print_json("tsiligirides_problem_1_budget_50.json")
 
-plot_graph(G,path)
+def plot_points(jsonfile):
+  f = open(jsonfile)
+  data = json.load(f)
+  for albergo in data:
+    titles = ['Greedy','LS','OltreLS']
+    for title in titles:
+      fig = plt.figure()
+      X = []
+      Y = []
+      lab = []
+      for tecnica in data[albergo]:
+        if title == 'Greedy' or title == 'LS':
+          if tecnica.startswith(title):
+            X.append(round(data[albergo][tecnica]['elap_time'],5))
+            Y.append(round(data[albergo][tecnica]['score'],5))
+            lab.append(tecnica)
+        else:
+          if tecnica.startswith('TS') or tecnica == 'Grasp':
+            X.append(round(data[albergo][tecnica]['elap_time'],5))
+            Y.append(round(data[albergo][tecnica]['score'],5))
+            lab.append(tecnica)
+      filename = os.path.basename(jsonfile)
+      filename = os.path.splitext(filename)[0]
+      titolo = filename + "_Albergo_"+ str(int(albergo)+1) + '_' + title
+      plt.title(titolo)
+      plt.xlabel('Tempo')
+      plt.ylabel('Score')
+      plt.plot(X,Y,'o')
+      for i, txt in enumerate(lab):
+        plt.annotate(txt,(X[i],Y[i]),ha='center',va='bottom')
+      plt.grid()
+      plt.savefig('plots/' + titolo + '.jpeg')
+      #plt.show()
+    
+
+def allplots():
+  plot_points("results/set_64_1_50.json")
+  plot_points("results/set_66_1_080.json")
+  plot_points("results/tsiligirides_problem_1_budget_85.json")
+  plot_points("results/tsiligirides_problem_2_budget_45.json")
+  plot_points("results/tsiligirides_problem_3_budget_110.json")
+  plot_points("results/Ferrara_90.json")
 
 
+#print_json("results/tsiligirides_problem_1_budget_50.json")
 
+#plot_graph(G,path)
 
+allplots()
