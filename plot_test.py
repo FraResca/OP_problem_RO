@@ -80,6 +80,7 @@ def plot_points(jsonfile):
       plt.grid()
       plt.savefig('plots/' + titolo + '.jpeg')
       #plt.show()
+      plt.close()
     
 
 def allplots():
