@@ -42,7 +42,7 @@ def from_ferrara():
             raw = raw.replace('"POINT (','')
             raw = raw.replace(')"','')
             raw = raw.split(' ')
-            G.add_node((i-1), score=int(float(data[2].replace('\n',''))), x=raw[0], y=raw[1])
+            G.add_node((i-1), score=int(float(data[2].replace('\n',''))), x=float(raw[0]), y=float(raw[1]))
 
     with open('distanze.txt') as f:
         lines = f.readlines()
