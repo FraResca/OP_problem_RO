@@ -41,7 +41,7 @@ def util_plot(G,filename):
   data = json.load(f)
   for albergo in data:
     for tecnica in data[albergo]:
-      plot_graph(G,data[albergo][tecnica]['path'],filename+'_' + 'Albergo_' + albergo + '_' + tecnica)
+      plot_graph(G,data[albergo][tecnica]['path'],filename+'_' + 'Albergo_' + albergo + '_' + tecnica + '_' +str(data[albergo][tecnica]['score']))
 
 def op_plotmap(filepath):
   _,G = from_op_format(filepath)
