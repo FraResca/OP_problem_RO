@@ -19,8 +19,8 @@ def misura(G, path):
 
 def path_accettabile(G, path, TMax):
 
-  # inizia e temina nello stesso nodo
-  if path[0] != path[-1]:
+  # inizia e temina nello stesso nodo che deve essere un albergo
+  if path[0] != path[-1] or G.nodes[path[0]]['score'] != 0:
     return False
 
   
