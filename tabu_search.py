@@ -3,7 +3,7 @@ from greedy import *
 from local_search import *
 from istance_parser import*
 import copy
-
+'''
 def tabu_remove(G,path,intens):
   newpath = copy.copy(path)
   nodes = [i for i in range(1,len(newpath)-1) if newpath[i] not in intens]
@@ -11,8 +11,8 @@ def tabu_remove(G,path,intens):
   tabu_node = newpath[rand_node]
   del newpath[rand_node]
   return newpath,tabu_node
-
 '''
+
 def tabu_remove(G,path,intens):
   newpath = copy.copy(path)
   nodes = [i for i in range(1,len(newpath)-1) if newpath[i] not in intens]
@@ -23,7 +23,7 @@ def tabu_remove(G,path,intens):
   tabu_node = newpath[worst_node]
   del newpath[worst_node]
   return newpath,tabu_node
-'''
+
   
 def tabu_add_moves(G,path,tabu_list,TMax):
   movlist = []
