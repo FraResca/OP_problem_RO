@@ -11,6 +11,19 @@ def tabu_remove(G,path,intens):
   tabu_node = newpath[rand_node]
   del newpath[rand_node]
   return newpath,tabu_node
+
+'''
+def tabu_remove(G,path,intens):
+  newpath = copy.copy(path)
+  nodes = [i for i in range(1,len(newpath)-1) if newpath[i] not in intens]
+  worst_node = nodes[0]
+  for node in nodes:
+    if G.nodes[node]["score"] < G.nodes[worst_node]["score"]:
+      worst_node = node
+  tabu_node = newpath[worst_node]
+  del newpath[worst_node]
+  return newpath,tabu_node
+'''
   
 def tabu_add_moves(G,path,tabu_list,TMax):
   movlist = []
