@@ -23,7 +23,7 @@ def plot_graph(G,path,titolo):
   fig, ax = plt.subplots()
 
   edge_labels = nx.get_edge_attributes(G, 'tempo')
-  nx.draw(G, coordinates, ax=ax, with_labels=True)
+  nx.draw(G, coordinates, ax=ax, style='solid', edge_color='white', with_labels=True)
   nx.draw_networkx_labels(G, coordinates)
   nx.draw_networkx_nodes(G, coordinates, nodelist=path, node_color="tab:red")
   nx.draw_networkx_edges(G, coordinates, edgelist=edges, width=3, edge_color="tab:red")
